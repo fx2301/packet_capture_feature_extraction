@@ -1,6 +1,6 @@
 # Why
 
-Packet capture tooling generally limits you to pre-conceived workflows or is so general as to not solve your problem.
+Packet capture tools generally limit you to pre-conceived workflows or are so general as to not solve your problem. 
 
 # What
 
@@ -17,7 +17,7 @@ sudo go run extract_features.go -r example.pcap > example.csv
 
 # Features extracted
 
-Here's an example row from [nmap_syn_scan_top_1000.csv]():
+Here's an example row from [nmap_syn_scan_top_1000.csv](https://github.com/fx2301/packet_capture_feature_extraction/blob/master/nmap_syn_scan_top_1000.csv):
 
 | Feature Name                 | Feature Value     |
 |:-----------------------------|:------------------|
@@ -56,7 +56,7 @@ Here's an example row from [nmap_syn_scan_top_1000.csv]():
 | IPv6Dst                      |                   |
 | IPv6Length                   |                   |
 
-Note that many features has no value for this example row (`UDPPresent`, `UDPSrc` etc). Features only have values if the associated packet layer was present in the packet's data. See []() for how this is done.
+Note that many features has no value for this example row (`UDPPresent`, `UDPSrc` etc). Features only have values if the associated packet layer was present in the packet's data. See [extract_features.go#L41-L111](https://github.com/fx2301/packet_capture_feature_extraction/blob/6b4dd95090097df57eaf80691ccdbd18da0de405/extract_features.go#L41-L111) for how this is done.
 
 Features will only be present in the `csv` if at least one packet had the feature. This is why under the hood the program makes two passes over the `pcap` data.
 
