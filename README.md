@@ -31,6 +31,7 @@ Here's an example row from [nmap_syn_scan_top_1000.csv](https://github.com/fx230
 | IPv4Dst                      | 172.16.37.1       |
 | UDPSrc                       |                   |
 | UDPDst                       |                   |
+| IPv4ID                       | 25629             |
 | IPv4Length                   | 52                |
 | IPv4TTL                      | 128               |
 | PacketLength                 | 66                |

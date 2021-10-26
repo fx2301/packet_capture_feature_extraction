@@ -74,6 +74,7 @@ func visitPackets(featureListener func([]PacketFeature)) {
 			if l := packet.Layer(layers.LayerTypeIPv4); l != nil {
 				ipv4Layer := l.(*layers.IPv4)
 
+				addFeature("IPv4ID", fmt.Sprintf("%d", ipv4Layer.Id))
 				addFeature("IPv4Length", fmt.Sprintf("%d", ipv4Layer.Length))
 				addFeature("IPv4TTL", fmt.Sprintf("%d", ipv4Layer.TTL))
 			}
