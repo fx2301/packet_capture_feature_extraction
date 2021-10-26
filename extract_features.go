@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
@@ -34,6 +35,7 @@ func visitPackets(featureListener func([]PacketFeature)) {
 	if handle, err := pcap.OpenOffline(*inputPacketFilename); err != nil {
 		panic(err)
 	} else {
+		var firstPacketTime *time.Time = nil
 		packetSource := gopacket.NewPacketSource(handle, handle.LinkType())
 		for packet := range packetSource.Packets() {
 			features := make([]PacketFeature, 0)
@@ -101,6 +103,13 @@ func visitPackets(featureListener func([]PacketFeature)) {
 			// MTU?
 			addFeature("PacketLength", fmt.Sprintf("%d", len(packet.Data())))
 
+			if firstPacketTime == nil {
+				firstPacketTime = &packet.Metadata().Timestamp
+			}
+
+			var relativePacketTime = packet.Metadata().Timestamp.Sub(*firstPacketTime)
+			addFeature("MillisecondsSinceFirstPacket", fmt.Sprintf("%d", int64(relativePacketTime.Milliseconds())))
+
 			featureListener(features)
 		}
 	}
@@ -140,7 +149,6 @@ func main() {
 
 	out := os.Stdout
 
-	fmt.Println(featureNamesToIndex)
 	out.WriteString(fmt.Sprintf("%s\n", strings.Join(featureNames, ",")))
 
 	visitPackets(func(features []PacketFeature) {
